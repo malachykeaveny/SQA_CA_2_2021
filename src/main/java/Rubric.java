@@ -14,19 +14,4 @@ public class Rubric {
         this.criteria = criteria;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public ArrayList<Criteria> getCriteria() {
-        return criteria;
-    }
-
-    public void setCriteria(ArrayList<Criteria> criteria) {
-        this.criteria = criteria;
-    }
 }
