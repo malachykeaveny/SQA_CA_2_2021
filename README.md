@@ -32,9 +32,14 @@
  
  ## Unit testing and Test-Driven development
  ![Unit tests](./images/unitTesting.png)
- <p>The tool I used for code coverage is the development process that was followed throughout this
- project. It involves writing a unit test for a feature. The developer will then focus solely on 
- making that unit test pass.</p>
+ <p>A unit test is the name given to a test that is carried out on a piece of code. Unit tests are an integral
+ piece of the puzzle when it comes to achieving software quality. They allow developers to write code faster while still 
+ maintaining a high standard, as problems may be debugged with greater ease. One of the main benefits to writing
+ unit tests, is the thought process required. Very often, while writing a test for a function 
+ (that has yet to be developed, more on test-driven development in the next section), the developer will realise
+ a design flaw within their solution. Such discoveries may save the developer hours of trouble. While a unit test can cover an 
+  entire class, smaller tests are generally regarded as better. The developer will then focus solely on 
+ making that unit test pass. I used the JUnit 5 framework to write tests during this project.</p>
  
  An example of test driven development within this project is during the creation of [creating a student grade](https://github.com/malachykeaveny/SQA_CA_2_2021/commit/bec9e589d6a5072aa8eba4c480b9ed78fdab64df).
  Within this commit, we can observe the test being written in UnitTest.Java. The test "testStudentGrade" 
@@ -57,14 +62,34 @@
    it was not possible to test many of the methods. </p>
    
    ## Team version control
+   ![Gitflow illustration](./images/gitFlow.png)
+   
+   <p>Gitflow is at the core of some of the largest development teams in the world. So what is Gitflow? Gitflow
+   allows developers to use one online repository to create several branches and feature branches throughout a project. Feature
+   branches live in a branch, such as develop. They are used within the Gitflow process when a feature of code is being
+   created. Once the feature is ready, it can be merged into develop. The "main" branch is the version which will be released to a customer, however by using the develop branch and 
+   creating feature branches from the develop branch, we are then exposed to a world of possibilities. The beauty
+   of the Gitflow process is that new features will never interact directly with the main branch, allowing
+   the development team a playground to endlessly change and add new features without the risks of harming
+   the main branch.</p>
+   
    ![Git branches used](./images/gitBranches.png)
    <p>Team version control was used throughout this project through Git, and the GitFlow process was
-   followed. As can be seen in the above images, various branches were used throughout the GitFlow 
-   process. All development occured in branches which were checked out from the develop branch.
-   Once commited and pushed to Git, a pull request was reviewed and accepted to add the branch to the
+   followed. As can be seen in the above images, feature branches were used where code was being written. These feature branches
+   were merged into the develop branch. Once the software was ready for release, the develop branch was merged into the main branch. 
+   Once committed and pushed to Git, a pull request was reviewed and accepted to add the branch to the
     develop branch.</p>
    
    ## Code-review checklist
+   
+   <p>Code review is of upmost importance within any successful software development team. Code review allows 
+   team members to analyse colleague's code, spot weaknesses and also potentially learn new approaches and 
+   solutions to problems they may not have been aware of. One such area within the code review process is
+   the pull request. A pull request is essentially a request for a code review within the Gitflow process. When a 
+   developer has completed their work on a feature branch, they will push their branch to Github where a team
+   member will review their code. Leaving comments within the pull request on Github are very helpful here. Usually, the team
+   leader will approve the pull request and merge it into the develop branch.</p>
+   
    | Task No. | Task description | Status |
    | ----------- | ----------- | ----------- |
    | 1 | Review overall design| Done |
@@ -81,3 +106,12 @@
    An example of a closed pull review can be seen throuh [the creation of the inital classes](https://github.com/malachykeaveny/SQA_CA_2_2021/commit/782a70e171264ada11019c23ebe0d66c44b4a416).
    Once the code has been pushed to Git, the team leader may then read the developers comment, review the 
    code and decide whether or not to approve the code and merge it to the develop branch.
+   
+   ## References
+   [Story points](https://www.mountaingoatsoftware.com/blog/what-are-story-points)
+   
+   [Unit tests](https://fortegrp.com/the-importance-of-unit-testing/)
+   
+   [Gitflow](https://sillevl.gitbooks.io/git/content/collaboration/workflows/gitflow/)
+   
+   [Pull requests](https://hackernoon.com/pull-request-checklist-what-you-need-to-do-before-assigning-a-pr-to-someone-x4263uuk)
