@@ -1,12 +1,10 @@
-import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Controller {
 
     ArrayList<Rubric> rubric = new ArrayList<Rubric>();
-    ArrayList<Student> studentGrades = new ArrayList<Student>();
+    public ArrayList<Student> studentGrades = new ArrayList<Student>();
     Scanner scanner = new Scanner(System.in);
 
     public Controller() {
@@ -25,7 +23,8 @@ public class Controller {
             System.out.println("6. View all student grades for a rubric");
             System.out.println("7. View all student grades");
             System.out.println("8. View grade summaries");
-            System.out.println("9. Close");
+            System.out.println("9. View criterion summary for specific grade");
+            System.out.println("10. Close");
             System.out.println("----------");
 
             String userChoice = scanner.nextLine();
@@ -63,7 +62,41 @@ public class Controller {
                     listAllStudentGrades();
                     break;
                 case "8":
+                    System.out.println("Enter rubric you wish to receive a summary of: ");
+                    String rubricNameSummary = scanner.nextLine();
+                    if (averageRubricScore(rubricNameSummary) != 0) {
+                        System.out.println("Summary for " + rubricNameSummary);
+                        System.out.println("----------");
+                        System.out.println("Average: " + averageRubricScore(rubricNameSummary));
+                        System.out.println("Maximum: " + maximumRubricScore(rubricNameSummary));
+                        System.out.println("Minimum: " + minimumRubricScore(rubricNameSummary));
+                        System.out.println("Standard deviation: " + rubricStandardDev(rubricNameSummary));
+                        System.out.println("----------");
+                    }
+                    else {
+                        System.out.println("Rubric does not exist!");
+                    }
+                    menu();
+                    break;
+                case "9":
+                    System.out.println("Enter rubric you wish to receive a summary of: ");
+                    String rubricNameSummary2 = scanner.nextLine();
+                    System.out.println("Enter criterion you wish to receive a summary of: ");
+                    String criterionNameSummary = scanner.nextLine();
 
+                    if (averageCriteriaScore(rubricNameSummary2,criterionNameSummary) != 0) {
+                        System.out.println("----------");
+                        System.out.println("Average: " + averageCriteriaScore(rubricNameSummary2,criterionNameSummary));
+                        System.out.println("Maximum: " + maximumCriteriaScore(rubricNameSummary2,criterionNameSummary));
+                        System.out.println("Minimum: " + minimumCriteriaScore(rubricNameSummary2,criterionNameSummary));
+                        System.out.println("Standard deviation:: " + criteriaStandardDev(rubricNameSummary2,criterionNameSummary));
+                        System.out.println("----------");
+                    }
+                    else {
+                        System.out.println("Criteria does not exist!");
+                    }
+
+                    menu();
                     break;
             }
     }
@@ -116,12 +149,12 @@ public class Controller {
 
                     if (Integer.parseInt(criteriaGrade) >= 0 && Integer.parseInt(criteriaGrade) <= 5) {
                         Criteria criteria1 = new Criteria();
-                        System.out.println("Criteria check: " + criteria.getName() + " " + criteriaGrade);
+                        //System.out.println("Criteria check: " + criteria.getName() + " " + criteriaGrade);
                         criteria1.setName(criteria.getName());
                         criteria1.setScoreLimit(Integer.parseInt(criteriaGrade));
                         rubric1.setName(eachRubric.getName());
                         rubric1.getCriteria().add(criteria1);
-                        System.out.println(rubric1.getName());
+                        //System.out.println(rubric1.getName());
                     }
                 }
 
@@ -185,7 +218,7 @@ public class Controller {
                 ArrayList<Criteria> c = eachRubric.getCriteria();
 
                 if (eachRubric.getCriteria().size() <= 10 ) {
-                    System.out.println("Size: " + eachRubric.getCriteria().size());
+                    //System.out.println("Size: " + eachRubric.getCriteria().size());
                     Criteria criteria = new Criteria();
                     criteria.setName(criteriaName);
                     criteria.setScoreLimit(5);
@@ -212,6 +245,186 @@ public class Controller {
 
         menu();
 
+    }
+
+    public Double averageRubricScore(String rubricName) {
+
+        int sumTotalScore = 0;
+        int count = 0;
+        double averageScore = 0;
+
+        for (Student student : studentGrades) {
+
+            if (student.getRubric().getName().equalsIgnoreCase(rubricName)) {
+                for (Criteria criteria : student.getRubric().getCriteria()) {
+                    sumTotalScore += criteria.getScoreLimit();
+                    count += 1;
+                }
+            }
+        }
+
+        if (count != 0) {
+            averageScore = sumTotalScore / count;
+        }
+
+        return averageScore;
+    }
+
+    public Double averageCriteriaScore(String rubricName, String criteriaName) {
+
+        int sumTotalScore = 0;
+        int count = 0;
+        double averageScore = 0;
+
+        for (Student student : studentGrades) {
+
+            if (student.getRubric().getName().equalsIgnoreCase(rubricName)) {
+                for (Criteria criteria : student.getRubric().getCriteria()) {
+                    if (criteria.getName().equalsIgnoreCase(criteriaName)) {
+                        sumTotalScore += criteria.getScoreLimit();
+                        count += 1;
+                    }
+                }
+            }
+        }
+
+        averageScore = sumTotalScore / count;
+
+        return averageScore;
+    }
+
+    public int minimumRubricScore(String rubricName) {
+
+        // I've set the smallest number to be 6 so that the first element in the list will always be smaller,
+        // and therefor be assigned as the smallest num on the first loop.
+
+        int smallestNum = 6;
+
+        for (Student student : studentGrades) {
+            if (student.getRubric().getName().equalsIgnoreCase(rubricName)) {
+                for (Criteria criteria : student.getRubric().getCriteria()) {
+                    if (criteria.getScoreLimit() < smallestNum) {
+                        smallestNum = criteria.getScoreLimit();
+                    }
+                }
+            }
+        }
+
+        return smallestNum;
+    }
+
+    public int minimumCriteriaScore(String rubricName, String criteriaName) {
+
+        // I've set the smallest number to be 6 so that the first element in the list will always be smaller,
+        // and therefor be assigned as the smallest num on the first loop.
+
+        int smallestNum = 6;
+
+        for (Student student : studentGrades) {
+            if (student.getRubric().getName().equalsIgnoreCase(rubricName)) {
+                for (Criteria criteria : student.getRubric().getCriteria()) {
+                    if (criteria.getName().equalsIgnoreCase(criteriaName)) {
+                        if (criteria.getScoreLimit() < smallestNum) {
+                            smallestNum = criteria.getScoreLimit();
+                        }
+                    }
+                }
+            }
+        }
+
+        return smallestNum;
+    }
+
+    public int maximumRubricScore(String rubricName) {
+
+        int largestNum = 0;
+
+        for (Student student : studentGrades) {
+            if (student.getRubric().getName().equalsIgnoreCase(rubricName)) {
+                for (Criteria criteria : student.getRubric().getCriteria()) {
+                    if (criteria.getScoreLimit() > largestNum) {
+                        largestNum = criteria.getScoreLimit();
+                    }
+                }
+            }
+        }
+
+        return largestNum;
+    }
+
+    public int maximumCriteriaScore(String rubricName, String criteriaName) {
+
+        int largestNum = 0;
+
+        for (Student student : studentGrades) {
+            if (student.getRubric().getName().equalsIgnoreCase(rubricName)) {
+                for (Criteria criteria : student.getRubric().getCriteria()) {
+                    if (criteria.getName().equalsIgnoreCase(criteriaName)) {
+                        if (criteria.getScoreLimit() > largestNum) {
+                            largestNum = criteria.getScoreLimit();
+                        }
+                    }
+                }
+            }
+        }
+
+        return largestNum;
+    }
+
+    public Double rubricStandardDev(String rubricNameSummary) {
+
+        int sum = 0;
+        double mean = 0;
+        double standardDev = 0.0;
+        ArrayList<Integer> studentGradesList = new ArrayList<Integer>();
+
+        for (Student student : studentGrades) {
+            if (student.getRubric().getName().equalsIgnoreCase(rubricNameSummary)) {
+                for (Criteria criteria : student.getRubric().getCriteria()) {
+                    sum += criteria.getScoreLimit();
+                    studentGradesList.add(criteria.getScoreLimit());
+                }
+            }
+        }
+
+        mean = sum / studentGradesList.size();
+
+        for (int i = 0; i < studentGradesList.size(); i++) {
+            standardDev += Math.pow(studentGradesList.get(i) - mean, 2);
+        }
+
+        standardDev = standardDev / studentGradesList.size();
+
+        return standardDev;
+    }
+
+    public Double criteriaStandardDev(String rubricNameSummary, String criteriaName) {
+
+        int sum = 0;
+        double mean = 0;
+        double standardDev = 0.0;
+        ArrayList<Integer> studentGradesList = new ArrayList<Integer>();
+
+        for (Student student : studentGrades) {
+            if (student.getRubric().getName().equalsIgnoreCase(rubricNameSummary)) {
+                for (Criteria criteria : student.getRubric().getCriteria()) {
+                    if (criteria.getName().equalsIgnoreCase(criteriaName)) {
+                        sum += criteria.getScoreLimit();
+                        studentGradesList.add(criteria.getScoreLimit());
+                    }
+                }
+            }
+        }
+
+        mean = sum / studentGradesList.size();
+
+        for (int i = 0; i < studentGradesList.size(); i++) {
+            standardDev += Math.pow(studentGradesList.get(i) - mean, 2);
+        }
+
+        standardDev = standardDev / studentGradesList.size();
+
+        return standardDev;
     }
 
     public static void main(String[] args) {
