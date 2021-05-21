@@ -12,3 +12,4 @@
 | 5 | Code review | Malachy | 2 | 
 
 #### Task estimation
+I have decided to use story points 
