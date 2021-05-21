@@ -177,10 +177,8 @@ public class Controller {
 
         for (Rubric eachRubric : rubric) {
 
-            //System.out.println(eachRubric.getName() + eachRubric.getCriteria());
-
             if (eachRubric.getName().equalsIgnoreCase(rubricNameSearch)) {
-
+                System.out.println(eachRubric.getName());
             }
 
         }
