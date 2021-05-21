@@ -76,6 +76,7 @@
    | 7 | Ensure naming conventions are followed | Done |
    | 8 | Ensure target branch is correct| Done |
    | 9 | Check for conflicts | Done |
+   
    ![Pull request comment](./images/pullRequestComment.png)
    An example of a closed pull review can be seen throuh [the creation of the inital classes](https://github.com/malachykeaveny/SQA_CA_2_2021/commit/782a70e171264ada11019c23ebe0d66c44b4a416).
    Once the code has been pushed to Git, the team leader may then read the developers comment, review the 
